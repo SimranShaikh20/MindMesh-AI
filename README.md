@@ -4,7 +4,7 @@
 
 **MindMesh AI** is an intelligent research assistant using **6 specialized AI agents** working in parallel to analyze complex questions from multiple perspectives and provide balanced, actionable recommendations in real-time.
 
-🎯 **Live Demo**: [Your Lovable App URL]
+🎯 **Live Demo**: [https://mind-mesh-ai-two.vercel.app/]
 
 ---
 
