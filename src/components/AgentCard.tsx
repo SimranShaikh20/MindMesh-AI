@@ -5,6 +5,7 @@ interface AgentCardProps {
   response: string;
   color: string;
   delay: number;
+  model?: string;
 }
 
 const colorClasses = {
@@ -16,7 +17,7 @@ const colorClasses = {
   pink: "from-pink-500/20 to-pink-600/20 border-pink-500/30",
 };
 
-export const AgentCard = ({ agent, role, icon, response, color, delay }: AgentCardProps) => {
+export const AgentCard = ({ agent, role, icon, response, color, delay, model }: AgentCardProps) => {
   const gradientClass = colorClasses[color as keyof typeof colorClasses] || colorClasses.purple;
 
   return (
@@ -33,6 +34,11 @@ export const AgentCard = ({ agent, role, icon, response, color, delay }: AgentCa
         <div className="flex-1 min-w-0">
           <h3 className="font-bold text-lg text-foreground truncate">{agent}</h3>
           <p className="text-xs text-muted-foreground">{role}</p>
+          {model && (
+            <p className="text-xs text-primary/70 mt-1">
+              {model.includes('pro') ? '🧠 Gemini Pro' : '⚡ Gemini Flash'}
+            </p>
+          )}
         </div>
       </div>
       <p className="text-sm text-foreground/90 leading-relaxed">{response}</p>

@@ -1,4 +1,4 @@
-import { Zap, Users, Target } from "lucide-react";
+import { Zap, Users, Target, Brain, Sparkles, Code } from "lucide-react";
 
 export const HowItWorks = () => {
   return (
@@ -12,7 +12,7 @@ export const HowItWorks = () => {
           <h3 className="text-xl font-bold mb-3">Lightning Fast</h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Parallel processing enables all agents to analyze simultaneously, delivering
-            comprehensive results in seconds instead of minutes.
+            comprehensive results in 3-5 seconds using Google Gemini AI.
           </p>
         </div>
 
@@ -35,6 +35,54 @@ export const HowItWorks = () => {
           <p className="text-sm text-muted-foreground leading-relaxed">
             Dedicated agents identify logical fallacies, verify facts, and check for cognitive
             biases to ensure balanced recommendations.
+          </p>
+        </div>
+      </div>
+
+      <div className="mt-12 bg-card border border-border rounded-xl p-8">
+        <h3 className="text-2xl font-bold text-center mb-6 gradient-text">Tech Stack</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
+              <Brain className="w-5 h-5 text-primary" />
+              AI Models (FREE until Oct 6!)
+            </h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-start gap-2">
+                <span className="text-primary">⚡</span>
+                <span><strong>Gemini 2.5 Flash:</strong> Fast agents (Research, Pro, Con)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-primary">🧠</span>
+                <span><strong>Gemini 2.5 Pro:</strong> Deep reasoning (Bias, Fact, Synthesizer)</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
+              <Code className="w-5 h-5 text-secondary" />
+              Architecture
+            </h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li className="flex items-start gap-2">
+                <span className="text-secondary">→</span>
+                <span><strong>Frontend:</strong> React 18, TypeScript, Tailwind CSS</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-secondary">→</span>
+                <span><strong>Backend:</strong> Lovable Cloud Edge Functions</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-secondary">→</span>
+                <span><strong>Streaming:</strong> Server-Sent Events (SSE)</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div className="mt-6 pt-6 border-t border-border/50 text-center">
+          <p className="text-sm text-muted-foreground">
+            <Sparkles className="w-4 h-4 inline-block mr-1" />
+            Built with Lovable Platform for instant deployment and auto-scaling
           </p>
         </div>
       </div>

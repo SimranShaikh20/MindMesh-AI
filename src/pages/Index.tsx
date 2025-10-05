@@ -14,6 +14,7 @@ interface AgentResponse {
   icon: string;
   response: string;
   color: string;
+  model?: string;
 }
 
 const Index = () => {
@@ -47,132 +48,85 @@ const Index = () => {
     setEndTime(null);
 
     try {
-      // For now, simulate the agent responses until backend is set up
-      // This will be replaced with actual WebSocket connection to Lovable Cloud
-      simulateAgentResponses();
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-query`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ query }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to connect to analysis service');
+      }
+
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+
+      if (!reader) {
+        throw new Error('Response body is not readable');
+      }
+
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        
+        buffer = lines.pop() || '';
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              
+              if (data.type === 'status') {
+                setCurrentStatus(data.message);
+              } else if (data.type === 'agent_response') {
+                setAgentResponses((prev) => [...prev, data.data]);
+              } else if (data.type === 'final_response') {
+                setFinalRecommendation(data.data.response);
+                setEndTime(Date.now());
+              } else if (data.type === 'complete') {
+                setCurrentStatus(data.message);
+                setIsProcessing(false);
+                toast({
+                  title: "Analysis Complete",
+                  description: "Your multi-agent analysis is ready.",
+                });
+              } else if (data.type === 'error') {
+                setError(data.message);
+                setIsProcessing(false);
+                toast({
+                  title: "Error",
+                  description: data.message,
+                  variant: "destructive",
+                });
+              }
+            } catch (e) {
+              console.error('Failed to parse SSE message:', e);
+            }
+          }
+        }
+      }
+
     } catch (err) {
-      setError("Failed to connect to backend. Please ensure Lovable Cloud is enabled.");
+      setError("Failed to connect to analysis service. Please try again.");
       setIsProcessing(false);
       toast({
         title: "Connection Error",
         description: "Failed to connect to the analysis service.",
         variant: "destructive",
       });
+      console.error('Analysis error:', err);
     }
-  };
-
-  const simulateAgentResponses = () => {
-    // Simulate Research Agent
-    setTimeout(() => {
-      setCurrentStatus("📊 Research Agent analyzing...");
-      setAgentResponses((prev) => [
-        ...prev,
-        {
-          agent: "Research Agent",
-          role: "Data & Statistics Analyst",
-          icon: "📊",
-          response:
-            "Based on current market data, the decision involves multiple quantifiable factors. Recent trends show 67% positive indicators in this area, with a 23% growth rate over the past year. Industry reports suggest this aligns with emerging patterns.",
-          color: "blue",
-        },
-      ]);
-    }, 800);
-
-    // Simulate Pro Advocate
-    setTimeout(() => {
-      setCurrentStatus("💡 Pro Advocate building case...");
-      setAgentResponses((prev) => [
-        ...prev,
-        {
-          agent: "Pro Advocate",
-          role: "Opportunity Finder",
-          icon: "💡",
-          response:
-            "This presents a significant opportunity for growth and development. The potential benefits include increased efficiency, better outcomes, and alignment with future trends. Taking action now could position you advantageously for upcoming opportunities.",
-          color: "green",
-        },
-      ]);
-    }, 1600);
-
-    // Simulate Con Advocate
-    setTimeout(() => {
-      setCurrentStatus("😈 Con Advocate identifying risks...");
-      setAgentResponses((prev) => [
-        ...prev,
-        {
-          agent: "Con Advocate",
-          role: "Risk Assessor",
-          icon: "😈",
-          response:
-            "Important risks to consider include potential financial implications, time investment, and uncertainty in outcomes. Market volatility and changing conditions could impact results. The opportunity cost of not pursuing alternatives should be carefully weighed.",
-          color: "red",
-        },
-      ]);
-    }, 2400);
-
-    // Simulate Bias Checker
-    setTimeout(() => {
-      setCurrentStatus("🎯 Checking for biases...");
-      setAgentResponses((prev) => [
-        ...prev,
-        {
-          agent: "Bias Checker",
-          role: "Critical Analyst",
-          icon: "🎯",
-          response:
-            "The Pro Advocate shows optimism bias by emphasizing benefits without quantifying probabilities. The Research Agent presents data selectively. Both perspectives exhibit confirmation bias toward predetermined conclusions. More balanced probability analysis needed.",
-          color: "yellow",
-        },
-      ]);
-    }, 3200);
-
-    // Simulate Fact Checker
-    setTimeout(() => {
-      setCurrentStatus("✅ Verifying claims...");
-      setAgentResponses((prev) => [
-        ...prev,
-        {
-          agent: "Fact Checker",
-          role: "Truth Verifier",
-          icon: "✅",
-          response:
-            "The Research Agent's 67% statistic requires source verification. Pro Advocate's 'significant opportunity' claim is subjective and unquantified. Con Advocate's risk assessment lacks specific probability data. Recommend cross-referencing claims with primary sources.",
-          color: "purple",
-        },
-      ]);
-    }, 4000);
-
-    // Simulate Synthesizer
-    setTimeout(() => {
-      setCurrentStatus("🎓 Synthesizing final recommendation...");
-      const synthesis = `**Recommendation:** Proceed with cautious optimism, implementing a phased approach.
-
-**Key Reasoning:**
-• Market data shows positive trends, but requires validation from multiple sources
-• Potential benefits outweigh risks when approached methodically
-• Risk mitigation strategies can address identified concerns
-
-**Action Steps:**
-1. Conduct deeper research to verify statistical claims and data sources
-2. Develop a pilot program or small-scale test to validate assumptions
-3. Create contingency plans for identified risks and establish clear metrics
-4. Set review milestones at 30, 60, and 90 days to assess progress
-
-**Confidence Level:** 7/10 - Moderate confidence based on available information. Higher certainty requires additional data validation and market research.
-
-**Important Considerations:**
-Be prepared for market volatility and changing conditions. Maintain flexibility in your approach and be ready to pivot if key assumptions prove incorrect. Keep opportunity costs in mind when allocating resources.`;
-
-      setFinalRecommendation(synthesis);
-      setCurrentStatus("✅ Analysis complete!");
-      setEndTime(Date.now());
-      setIsProcessing(false);
-
-      toast({
-        title: "Analysis Complete",
-        description: "Your multi-agent analysis is ready.",
-      });
-    }, 4800);
   };
 
   const processingTime = startTime && endTime ? ((endTime - startTime) / 1000).toFixed(1) : null;
@@ -195,11 +149,11 @@ Be prepared for market volatility and changing conditions. Maintain flexibility 
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
             <div className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
               <Zap className="w-4 h-4 text-yellow-400" />
-              <span>Powered by AI</span>
+              <span>Powered by Gemini AI</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
               <Brain className="w-4 h-4 text-purple-400" />
-              <span>Meta Llama Models</span>
+              <span>FREE until Oct 6</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
               <Users className="w-4 h-4 text-pink-400" />
@@ -273,10 +227,11 @@ Be prepared for market volatility and changing conditions. Maintain flexibility 
                 key={idx}
                 agent={agent.agent}
                 role={agent.role}
-                icon={agent.icon}
-                response={agent.response}
-                color={agent.color}
-                delay={idx * 0.1}
+              icon={agent.icon}
+              response={agent.response}
+              color={agent.color}
+              model={agent.model}
+              delay={idx * 0.1}
               />
             ))}
           </div>

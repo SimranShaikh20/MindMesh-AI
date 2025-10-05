@@ -66,11 +66,11 @@ export const FinalRecommendation = ({
           <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Zap className="w-4 h-4 text-yellow-400" />
-              <span>AI-Powered Analysis</span>
+              <span>Powered by Gemini AI</span>
             </div>
             <div className="flex items-center gap-2">
               <Brain className="w-4 h-4 text-purple-400" />
-              <span>Meta Llama Models</span>
+              <span>FREE until Oct 6, 2025</span>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-4 text-sm">
