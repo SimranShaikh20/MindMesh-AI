@@ -105,7 +105,7 @@ Try asking:
 
 1. **Clone the repository**
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/SimranShaikh20/MindMesh-AI
 cd mindmesh-ai
 ```
 
@@ -225,40 +225,9 @@ Traditional decision-making often suffers from:
 
 ---
 
-## 🤝 Contributing
-
-This is a demo project for the FutureStack GenAI Hackathon. Feel free to:
-- Fork and customize
-- Suggest improvements
-- Report bugs
-- Share feedback
-
----
 
 ## 📝 License
 
 MIT License - feel free to use this for your own projects!
 
 ---
-
-## 🎉 Acknowledgments
-
-- **Lovable Platform**: For the amazing full-stack development experience
-- **Google Gemini**: For powerful, fast AI models
-- **Community**: For inspiration and feedback
-
----
-
-## 📞 Support
-
-- **Documentation**: [Lovable Docs](https://docs.lovable.dev/)
-- **Community**: [Lovable Discord](https://discord.com/channels/1119885301872070706/1280461670979993613)
-- **Issues**: Open an issue in this repository
-
----
-
-**Built with ❤️ using Lovable and Google Gemini AI**
-
-⚡ Processing speed: 3-5 seconds for 6 agents  
-🎯 AI Models: Gemini 2.5 Flash + Pro  
-🆓 FREE until October 6, 2025
