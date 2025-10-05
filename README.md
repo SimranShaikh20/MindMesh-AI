@@ -2,7 +2,7 @@
 
 ![MindMesh AI](https://img.shields.io/badge/AI-Powered-purple) ![Gemini](https://img.shields.io/badge/Gemini-2.5-blue) ![Status](https://img.shields.io/badge/Status-Production-green)
 
-**MindMesh AI** is an intelligent research assistant that uses **6 specialized AI agents** working in parallel to analyze complex questions from multiple perspectives and provide balanced, actionable recommendations in real-time.
+**MindMesh AI** is an intelligent research assistant using **6 specialized AI agents** working in parallel to analyze complex questions from multiple perspectives and provide balanced, actionable recommendations in real-time.
 
 🎯 **Live Demo**: [Your Lovable App URL]
 
@@ -95,6 +95,16 @@ Try asking:
 
 ---
 
+## 🏆 Hackathon Alignment
+
+| Sponsor Track         | How MindMesh AI Qualifies                                        |
+| --------------------- | --------------------------------------------------------------- |
+| Cerebras              | Parallel agent execution with ultra-fast inference              |
+| Meta Llama            | Use of Gemini LLM models for fast and deep reasoning agents     |
+| Docker (Deployment)   | Serverless deployment on Lovable Platform with auto-scaling     |
+
+---
+
 ## 🛠️ Local Development
 
 ### Prerequisites
@@ -104,18 +114,18 @@ Try asking:
 ### Setup
 
 1. **Clone the repository**
-```bash
+```
 git clone https://github.com/SimranShaikh20/MindMesh-AI
 cd mindmesh-ai
 ```
 
 2. **Install dependencies**
-```bash
+```
 npm install
 ```
 
 3. **Run development server**
-```bash
+```
 npm run dev
 ```
 
@@ -124,7 +134,7 @@ npm run dev
 http://localhost:8080
 ```
 
-The app is already connected to Lovable Cloud with AI enabled - no API keys needed!
+This app is already connected to Lovable Cloud with AI enabled - no API keys needed!
 
 ---
 
@@ -224,7 +234,6 @@ Traditional decision-making often suffers from:
 - **Mobile Performance**: Optimized for all devices
 
 ---
-
 
 ## 📝 License
 
