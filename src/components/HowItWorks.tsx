@@ -45,7 +45,7 @@ export const HowItWorks = () => {
           <div>
             <h4 className="font-semibold text-lg mb-3 flex items-center gap-2">
               <Brain className="w-5 h-5 text-primary" />
-              AI Models (FREE until Oct 6!)
+              AI Models
             </h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">

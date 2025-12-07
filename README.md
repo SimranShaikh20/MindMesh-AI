@@ -15,7 +15,10 @@
 - **⚡ Real-Time Streaming**: Watch agents "think" and respond live with streaming updates
 - **🎨 Beautiful Modern UI**: Dark theme with purple-pink gradients and smooth animations
 - **📱 Fully Responsive**: Works seamlessly on mobile, tablet, and desktop
-- **🆓 FREE AI Models**: Using Gemini 2.5 (FREE until Oct 6, 2025)
+- **📊 Confidence Meter**: Visual confidence scoring with animated progress bar
+- **📜 History Sidebar**: Track and revisit your past 10 analyses
+- **💡 Smart Follow-ups**: AI-generated contextual follow-up questions
+- **⚡ Speed Banner**: Real-time comparison of parallel vs sequential processing
 
 ---
 
@@ -219,10 +222,13 @@ Traditional decision-making often suffers from:
 ## 🌟 Key Innovations
 
 1. **Parallel Agent Processing**: 3-5x faster than sequential
-2. **Free AI Models**: Using Gemini during free period
-3. **Real-Time Streaming**: Live agent updates
-4. **Bias Detection**: Dedicated quality assurance agents
-5. **Beautiful UX**: Professional, modern interface
+2. **Real-Time Streaming**: Live agent updates
+3. **Bias Detection**: Dedicated quality assurance agents
+4. **Beautiful UX**: Professional, modern interface
+5. **Confidence Meter**: Extract and display confidence scores (X/10) with animated color-coded bars
+6. **History Sidebar**: Collapsible sidebar storing last 10 analyses in localStorage
+7. **Smart Follow-ups**: AI-generated follow-up questions displayed as clickable gradient cards
+8. **Speed Banner**: Animated comparison showing parallel vs sequential processing time
 
 ---
 
