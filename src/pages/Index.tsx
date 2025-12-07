@@ -6,6 +6,10 @@ import { AgentCard } from "@/components/AgentCard";
 import { FinalRecommendation } from "@/components/FinalRecommendation";
 import { ExampleQueries } from "@/components/ExampleQueries";
 import { HowItWorks } from "@/components/HowItWorks";
+import { ConfidenceMeter } from "@/components/ConfidenceMeter";
+import { HistorySidebar } from "@/components/HistorySidebar";
+import { SmartFollowUps } from "@/components/SmartFollowUps";
+import { SpeedBanner } from "@/components/SpeedBanner";
 import { toast } from "@/hooks/use-toast";
 
 interface AgentResponse {
@@ -15,6 +19,15 @@ interface AgentResponse {
   response: string;
   color: string;
   model?: string;
+}
+
+interface HistoryItem {
+  id: string;
+  query: string;
+  timestamp: number;
+  agentResponses: AgentResponse[];
+  finalRecommendation: string;
+  processingTime: string | null;
 }
 
 const Index = () => {
@@ -129,10 +142,47 @@ const Index = () => {
     }
   };
 
+  const handleLoadHistory = (item: HistoryItem) => {
+    setQuery(item.query);
+    setAgentResponses(item.agentResponses);
+    setFinalRecommendation(item.finalRecommendation);
+    setError("");
+    setIsProcessing(false);
+    // Calculate times for display
+    if (item.processingTime) {
+      const time = parseFloat(item.processingTime) * 1000;
+      setStartTime(Date.now() - time);
+      setEndTime(Date.now());
+    }
+    toast({
+      title: "History Loaded",
+      description: "Previous analysis restored.",
+    });
+  };
+
+  const handleSelectFollowUp = (question: string) => {
+    setQuery(question);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    toast({
+      title: "Follow-up Selected",
+      description: "Click 'Activate Agent Swarm' to analyze.",
+    });
+  };
+
   const processingTime = startTime && endTime ? ((endTime - startTime) / 1000).toFixed(1) : null;
 
   return (
     <div className="min-h-screen py-8 px-4">
+      {/* History Sidebar */}
+      <HistorySidebar
+        onLoadHistory={handleLoadHistory}
+        currentQuery={query}
+        currentResponses={agentResponses}
+        currentRecommendation={finalRecommendation}
+        currentProcessingTime={processingTime}
+        isProcessing={isProcessing}
+      />
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <header className="text-center mb-12 animate-fadeIn">
@@ -227,23 +277,47 @@ const Index = () => {
                 key={idx}
                 agent={agent.agent}
                 role={agent.role}
-              icon={agent.icon}
-              response={agent.response}
-              color={agent.color}
-              model={agent.model}
-              delay={idx * 0.1}
+                icon={agent.icon}
+                response={agent.response}
+                color={agent.color}
+                model={agent.model}
+                delay={idx * 0.1}
               />
             ))}
           </div>
         )}
 
+        {/* Speed Banner - Show after completion */}
+        {processingTime && finalRecommendation && !isProcessing && (
+          <SpeedBanner 
+            processingTime={processingTime} 
+            agentCount={agentResponses.length || 6} 
+          />
+        )}
+
         {/* Final Recommendation */}
         {finalRecommendation && (
-          <FinalRecommendation
-            recommendation={finalRecommendation}
-            processingTime={processingTime}
-            agentCount={agentResponses.length}
-          />
+          <>
+            {/* Confidence Meter */}
+            <div className="max-w-4xl mx-auto">
+              <ConfidenceMeter recommendation={finalRecommendation} />
+            </div>
+
+            <FinalRecommendation
+              recommendation={finalRecommendation}
+              processingTime={processingTime}
+              agentCount={agentResponses.length}
+            />
+
+            {/* Smart Follow-ups */}
+            <div className="max-w-4xl mx-auto mb-12">
+              <SmartFollowUps
+                query={query}
+                recommendation={finalRecommendation}
+                onSelectFollowUp={handleSelectFollowUp}
+              />
+            </div>
+          </>
         )}
 
         {/* How It Works */}
