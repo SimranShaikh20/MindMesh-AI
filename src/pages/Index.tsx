@@ -203,7 +203,7 @@ const Index = () => {
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
               <Brain className="w-4 h-4 text-purple-400" />
-              <span>FREE until Oct 6</span>
+              <span>Multi-Agent Analysis</span>
             </div>
             <div className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
               <Users className="w-4 h-4 text-pink-400" />
