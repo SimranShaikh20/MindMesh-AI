@@ -79,12 +79,6 @@ export const HowItWorks = () => {
             </ul>
           </div>
         </div>
-        <div className="mt-6 pt-6 border-t border-border/50 text-center">
-          <p className="text-sm text-muted-foreground">
-            <Sparkles className="w-4 h-4 inline-block mr-1" />
-            Built with Lovable Platform for instant deployment and auto-scaling
-          </p>
-        </div>
       </div>
     </div>
   );
